@@ -1,0 +1,16 @@
+from twisted.application import service
+from twisted.words.protocols.jabber.jid import JID
+
+from wokkel import client, xmppim
+
+jid = JID("ssolice@indigoskylight.com")
+password = 'cisco'
+
+application = service.Application('XMPP client')
+xmppClient = client.XMPPClient(jid, password)
+xmppClient.logTraffic = True
+xmppClient.setServiceParent(application)
+
+presence = xmppim.PresenceClientProtocol()
+presence.setHandlerParent(xmppClient)
+presence.available()
